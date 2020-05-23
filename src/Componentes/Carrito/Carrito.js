@@ -24,7 +24,7 @@ export default class Carrito extends Component {
                                              <Title name="tu" title="carrito" />
                                              <CarritoColumnas />
                                              <ListaCarrito value={value} />
-                                             <CarritoTotal value={value} />
+                                             <CarritoTotal value={value} history={this.props.history} />
                                         </React.Fragment>
                                    )
                               } else {
