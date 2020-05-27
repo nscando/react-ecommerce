@@ -6,7 +6,7 @@ import Navbar from './Componentes/Navbar';
 import ProductList from './Componentes/ProductList';
 import Detalles from './Componentes/Detalles';
 import Carrito from './Componentes/Carrito';
-import ErrorPage from './Componentes/ErrorPage';
+
 import Modal from './Componentes/Modal';
 import Registro from './Componentes/Registro';
 import Login from './Componentes/Login';
@@ -32,7 +32,6 @@ function App() {
       <Switch>
         <Route path="/registro" exact component={Registro} />
         <Route path="/login" exact component={() => <Login title={'test'} />} />
-        <Route component={ErrorPage} />
       </Switch>
 
 
