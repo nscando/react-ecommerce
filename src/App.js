@@ -25,7 +25,6 @@ function App() {
         <Route exact path="/" component={ProductList} />
         <Route path="/detalles" component={Detalles} />
         <Route path="/carrito" component={Carrito} />
-        <Route component={ErrorPage} />
         <Modal />
 
       </Switch>
@@ -33,6 +32,7 @@ function App() {
       <Switch>
         <Route path="/registro" exact component={Registro} />
         <Route path="/login" exact component={() => <Login title={'test'} />} />
+        <Route component={ErrorPage} />
       </Switch>
 
 
