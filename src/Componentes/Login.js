@@ -28,17 +28,17 @@ class Login extends Component {
                                    initialValues={{ email: '', password: '' }}
                                    validate={values => {
                                         const errors = {};
-                                        if (!values.password) {
-
-                                             errors.password = 'Required';
-                                        }
-                                        if (!values.email) {
-                                             errors.email = 'Required';
-                                        } else if (
-                                             !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-                                        ) {
-                                             errors.email = 'Invalid email address';
-                                        }
+                                        /*  if (!values.password) {
+  
+                                               errors.password = 'Required';
+                                          }
+                                          if (!values.email) {
+                                               errors.email = 'Required';
+                                          } else if (
+                                               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+                                          ) {
+                                               errors.email = 'Invalid email address';
+                                          }*/
 
                                         return errors;
                                    }}
@@ -47,27 +47,42 @@ class Login extends Component {
                                              spinner: true
                                         })
                                         console.log(values.email, values.password)
-                                        firebase.auth.signInWithEmailAndPassword(values.email, values.password)
-                                             .then((data) => {
-                                                  this.setState({
-                                                       spinner: false
-                                                  })
-                                                  setSubmitting(false);
-                                                  this.context.loginUser(JSON.stringify(data.user))
-                                                  const { history } = this.props;
-                                                  history.push('/');
+
+                                        fetch("http://localhost:3000/login", {
+                                             method: "POST",
+                                             headers: {
+                                                  'Content-type': 'application/json'
+                                             },
+                                             body: JSON.stringify({
+                                                  user: values.email,
+                                                  password: values.password
                                              })
-                                             .catch(error => {
-                                                  console.log("Error", error)
-                                                  if (error.code == "auth/user-not-found") {
-                                                       this.state.error = true;
+                                        })
+
+                                             .then(res => res.json())
+                                             .then(
+                                                  (result) => {
+                                                       console.log(result)
+                                                       this.setState({
+                                                            spinner: false
+                                                       })
+                                                       setSubmitting(false);
+                                                       localStorage.setItem("token", result.token)
+                                                       this.context.loginUser(JSON.stringify(result.token))
+                                                       const { history } = this.props;
+                                                       history.push('/');
+                                                  },
+                                                  (error) => {
                                                        this.setState({
                                                             spinner: false,
                                                             error: true
                                                        })
                                                        setSubmitting(false);
                                                   }
-                                             });
+                                             )
+
+
+
 
                                    }}
                               >
@@ -83,7 +98,7 @@ class Login extends Component {
                                              <Form onSubmit={handleSubmit}>
                                                   <Form.Group controlId="formBasicEmail">
                                                        <Form.Label>Email</Form.Label>
-                                                       <Form.Control type="email" placeholder="Enter email" name="email" value={values.email} onChange={handleChange} />
+                                                       <Form.Control type="text" placeholder="Enter email" name="email" value={values.email} onChange={handleChange} />
                                                        {errors.email && touched.email && errors.email}
                                                   </Form.Group>
 
