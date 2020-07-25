@@ -51,7 +51,7 @@ export default class Navbar extends Component {
                                    }
                                    {context.login &&
                                         <>
-                                             <Link onClick={context.logout} className="nav-link">
+                                             <Link to="" onClick={context.logout} className="nav-link">
                                                   logout
                                         </Link>
 
